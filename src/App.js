@@ -1,13 +1,26 @@
+import "./App.css";
 import React from 'react'
-import Home from './pages/Home'
+import { Routes , Route } from 'react-router-dom'
+import CRM from './pages/CRM'
+import Dashboard from './pages/Dashboard'
+import Help from './pages/Help'
+import Notification from './pages/Notification'
+import Profile from './pages/Profile'
+import Sidebar from './components/Sidebar'
 
-const App = () => {
+function App() {
+
   return (
-
-
-    <Home/>
-
-
+    <>
+    <Sidebar/>
+      <Routes> 
+        <Route path="/" element={<Dashboard/>}/>
+        <Route path='/CRM' element={<CRM/>}/>
+        <Route path='/Notification' element={<Notification/>}/>
+        <Route path='/Profile' element={<Profile/>}/>
+        <Route path='/Help' element={<Help/>}/>
+      </Routes>
+    </>
   )
 }
 

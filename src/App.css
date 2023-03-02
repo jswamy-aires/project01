@@ -1,0 +1,153 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,body{
+    height: 100%;
+    width: 100%;
+}
+
+
+/* -----------------------------------------------SIDEBAR---------------------------------------------- */
+
+.bgtop{
+    height: 30vh;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    background-color: #1D76CB;
+    top: 0vh;
+    left: 0;
+
+}
+
+
+
+.main-container{
+    display: flex;
+    padding: 20px;
+    color: black;
+}
+
+
+.sidebar{
+    background-color: whitesmoke;
+    height: 95vh;
+    margin-top: 1vmax;
+    border-radius: 10px;
+}
+
+
+.top_section{
+    display: flex;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 2vmax;
+    justify-content: space-around;
+
+}
+a{
+    text-decoration: none;
+}
+
+.logo{
+    height: 4.5vh;
+    background-position: center;
+    width: 4vmax;
+    background-image: url(components/titlelogo.PNG);
+}
+.companyname{
+    padding-left: 1vmax;
+}
+.bars{
+    padding-left: 2vmax;
+    margin-top: 1vh;
+}
+
+.link{
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    text-decoration: none;
+    color: black;
+    padding: 20px 10px ;
+    border-right: 4px solid transparent;
+    gap: 12px;
+    margin-top: 2vh;
+}
+
+.link:hover{
+    /* width: 15vmax; */
+    border-right: 4px solid rgb(247, 108, 58);
+    transition:0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    background-color: rgb(240, 135, 97);
+    
+}
+
+.active{
+    /* width: 15vmax; */    
+    border-right: 4px solid rgb(247, 108, 58);
+    background-color: rgb(240, 135, 97);
+    
+}
+.icon{
+    height: 2vh;
+}
+
+.link_text{
+    white-space: nowrap;
+    font-size: 15px;
+    height: 2vh;
+}
+
+/* --------------------------------------------NAVBAR----------------------------------------------- */
+
+
+.nav{
+    height: 5vh;
+    width: 65vmax;
+    background-color: #ffffff;
+    position: absolute;
+    margin-left: 30vmax;
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    padding-top: 1vh;
+    margin-top: 2vh;
+}
+
+.nav1{
+    padding-left: 2vmax;
+    cursor: pointer;
+}
+
+.nav2>input{
+    width: 20vmax;
+    background-color: whitesmoke;
+    cursor: pointer;
+    border: none;
+}
+.nav2{
+    padding-left: 3vmax;
+    cursor: alias;
+}
+
+.nav3{
+    margin-left: 20vmax;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.nav4{
+    margin-left: 2vmax;
+    cursor: pointer;
+}
+
+.nav5{
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    cursor: pointer;
+    margin-left: 2vmax;
+    font-family: Arial, Helvetica, sans-serif;
+}
