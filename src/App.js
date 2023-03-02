@@ -1,11 +1,11 @@
 import "./App.css";
 import React from 'react'
 import { Routes , Route } from 'react-router-dom'
-import CRM from './pages/CRM'
-import Dashboard from './pages/Dashboard'
-import Help from './pages/Help'
-import Notification from './pages/Notification'
-import Profile from './pages/Profile'
+import CRM from './pages/views/crm/CRM'
+import Dashboard from './pages/views/dashboard/Dashboard'
+import Help from './pages/views/help/Help'
+import Notification from './pages/views/notification/Notification'
+import Profile from './pages/views/profile/Profile'
 import Sidebar from './components/Sidebar'
 
 function App() {

@@ -2,12 +2,11 @@ import React, { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { NavLink } from 'react-router-dom';
 import { AiOutlineDashboard } from 'react-icons/ai';
-import { SiCivicrm } from 'react-icons/si';
+import { SiCivicrm, SiIntel } from 'react-icons/si';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { ImProfile } from 'react-icons/im';
 import { BiHelpCircle } from 'react-icons/bi';
 import {GiHamburgerMenu } from 'react-icons/gi';
-import {SiIntel} from 'react-icons/si';
 import {BsBell} from 'react-icons/bs';
 import {RxAvatar} from 'react-icons/rx';
 
@@ -44,7 +43,7 @@ const routes = [
 
 const Sidebar = ({childern}) => {
 
-    const[isopen, setIsOpen] = useState(false);
+    const[isopen, setIsOpen] = useState(true);
     const toggle = () => setIsOpen (!isopen);
 
   return (
