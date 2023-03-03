@@ -111,36 +111,44 @@ a{
     margin-left: 30vmax;
     display: flex;
     flex-direction: row;
-    justify-items: center;
-    padding-top: 1vh;
+
+    /* justify-items: center; */
+    padding-top: .8vh;
     margin-top: 2vh;
 }
 
 .nav1{
-    padding-left: 2vmax;
     cursor: pointer;
+    scale: 1.2;
+    justify-items: center;
 }
 
 .nav2>input{
     width: 20vmax;
-    background-color: whitesmoke;
+    height: 3vh;
+    padding: 2px;
+    /* background-color: whitesmoke; */
     cursor: pointer;
-    border: none;
+    border: none #00000000;
 }
 .nav2{
-    padding-left: 3vmax;
+    
     cursor: alias;
 }
 
 .nav3{
-    margin-left: 20vmax;
+    padding-left: 15vmax;
     cursor: pointer;
-    font-size: 24px;
+    color: #1D76CB;
+    font-size: 18px;
+    justify-items: center;
 }
 
 .nav4{
     margin-left: 2vmax;
     cursor: pointer;
+    /* font-size: 24px; */
+    /* margin-top: -1vh; */
 }
 
 .nav5{
@@ -149,5 +157,213 @@ a{
     justify-items: center;
     cursor: pointer;
     margin-left: 2vmax;
+    
     font-family: Arial, Helvetica, sans-serif;
 }
+.nav5 > span {
+    justify-items: center;
+    padding-top: 3px;
+}
+/* --------------------------------------profile. -----------------------------*/
+
+.main{
+    margin-top: 2.5vh;
+    margin-left: 27.5vw;
+    height: 95vh;
+    background-color: white;
+    /* border: 1px black solid; */
+    width: 45vw;
+    z-index: 99;
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    box-shadow: 1px 1px 5px 1px rgb(163, 163, 163);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ri-close-line{
+    margin-top: 2vh;
+    font-size: 25px;
+    color: rgb(122, 120, 120);
+    margin-left: 42vw;
+    cursor: pointer;
+}
+
+.head{
+    margin-top: 5vh;
+    font-size: 28px;
+    font-weight: 400;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.google{
+    height: 6vh;
+    width: 16vw;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    background-color: white;
+    border: .5px solid rgb(180, 180, 180);
+    cursor: pointer;
+    border-radius: 26px;
+    margin-top: 10vh;
+    color: rgb(128, 113, 113);
+}
+.google:hover{
+    border: solid .5px rgb(148, 143, 143);
+    transition: .4s all;
+}
+
+.ri-google-line{
+    font-size: 18px;
+    padding-left:1vw;
+    padding-right: 1vw;
+    background: -webkit-linear-gradient(rgb(248, 3, 3), rgb(255, 230, 1), rgb(9, 165, 9));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+.facebook{
+    height: 6vh;
+    width: 16vw;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    background-color: white;
+    border: .5px solid rgb(180, 180, 180);
+    cursor: pointer;
+    border-radius: 26px;
+    margin-top: 2vh;
+    color: rgb(128, 113, 113);
+}
+.facebook:hover{
+    /* box-shadow: 1px 1px 1px 1px rgb(179, 179, 179); */
+    border: solid .5px rgb(148, 143, 143);
+    transition: .4s all;
+}
+
+.ri-facebook-box-fill{
+    font-size: 18px;
+    padding-left:1vw;
+    color: #4867AA;
+    padding-right: 1vw;
+}
+
+
+.apple{
+    height: 6vh;
+    width: 16vw;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    background-color: white;
+    border: .5px solid rgb(180, 180, 180);
+    cursor: pointer;
+    border-radius: 26px;
+    margin-top: 2vh;
+    color: rgb(128, 113, 113);
+}
+.apple:hover{
+    /* box-shadow: 1px 1px 1px 1px rgb(179, 179, 179); */
+    border: solid .5px rgb(148, 143, 143);
+    transition: .4s all;
+}
+
+.ri-apple-fill{
+    font-size: 18px;
+    padding-left:1vw;
+    color: #000000;
+    padding-right: 1vw;
+}
+
+.twitter{
+    height: 6vh;
+    width: 16vw;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    background-color: white;
+    border: .5px solid rgb(180, 180, 180);
+    cursor: pointer;
+    border-radius: 26px;
+    margin-top: 2vh;
+    color: rgb(128, 113, 113);
+}
+.twitter:hover{
+    /* box-shadow: 1px 1px 1px 1px rgb(179, 179, 179); */
+    border: solid .5px rgb(148, 143, 143);
+    transition: .4s all;
+}
+
+.ri-twitter-fill{
+    font-size: 18px;
+    padding-left:1vw;
+    color: #1DA1F2;
+    padding-right: 1vw;
+}
+
+
+.mail{
+    height: 6vh;
+    width: 16vw;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    background-color: white;
+    border: .5px solid rgb(180, 180, 180);
+    cursor: pointer;
+    border-radius: 26px;
+    margin-top: 2vh;
+    color: rgb(128, 113, 113);
+}
+.mail:hover{
+    /* box-shadow: 1px 1px 1px 1px rgb(179, 179, 179); */
+    border: solid .5px rgb(148, 143, 143);
+    transition: .4s all;
+}
+
+.ri-mail-line{
+    font-size: 18px;
+    padding-left:1vw;
+    color: black;
+    padding-right: 1vw;
+}
+
+.content1{
+    font-size: 13px;
+    margin-top: 4vh;
+    color: #696767;
+}
+.content1>span{
+    cursor: pointer;
+    text-decoration: solid;
+    color: green;
+}
+
+.content2{
+    font-size: 13px;
+    color: #696767;
+    margin-top: 5vh;
+}
+.content2>span{
+    color: #464545;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.content3{
+    margin-top: 6vh;
+    font-size: 13px;
+    color: #696767;
+    text-align: center;
+}
+.content3>span{
+    color: #464545;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+/*------------------------------ crm----------------------------- */

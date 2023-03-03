@@ -74,14 +74,14 @@ const DashboardGrid = () => {
 
     // gets called once, no dependencies, loads the grid data
     useEffect(() => {
-        fetch('olympic-winners.json',{
-            headers : { 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-             }
-           }
-          )
-            .then(resp => resp.json() )
+        fetch('olympic-winners.json', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }
+        )
+            .then(resp => resp.json())
             .then(data => setRowData(data));
     }, []);
 
