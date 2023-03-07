@@ -11,3 +11,23 @@
   height: 100%;
   box-sizing: border-box;
 }
+.example-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+}
+#myGrid {
+  flex: 1 1 0px;
+  width: 100%;
+}
+.ex-header {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 13px;
+  margin-bottom: 5px;
+  float: right;
+}
+.ag-root-wrapper-body{
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+}

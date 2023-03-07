@@ -6,7 +6,8 @@ import { RangeSelectionModule } from '@ag-grid-enterprise/range-selection';
 import { RichSelectModule } from '@ag-grid-enterprise/rich-select';
 import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
 import React, { forwardRef, memo, useEffect, useImperativeHandle, useMemo, useRef, useState, useCallback } from 'react';
-import { ModuleRegistry } from '@ag-grid-community/core';
+import { ModuleRegistry, GridOptions } from '@ag-grid-community/core';
+
 // Register the required feature modules with the Grid
 ModuleRegistry.registerModules([ClientSideRowModelModule, RangeSelectionModule, RowGroupingModule, RichSelectModule]);
 
@@ -38,42 +39,138 @@ const MyReactEditor = memo(forwardRef((props, ref) => {
     );
 }));
 
+var checkboxSelection = function (params) {
+    // we put checkbox on the name if we are not doing grouping
+    return params.columnApi.getRowGroupColumns().length === 0;
+};
+
+var headerCheckboxSelection = function (params) {
+    // we put checkbox on the name if we are not doing grouping
+    return params.columnApi.getRowGroupColumns().length === 0;
+};
 
 const DashboardGrid = () => {
 
-    // never changes, so we can use useMemo
-    const columnDefs = useMemo(() => [
+    const gridRef = useRef();
+    const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
+    const gridStyle = useMemo(() => ({ height: '500px', width: '100%' }), []);
+
+    const [columnDefs, setColumnDefs] = useState([
         {
-            field: 'country'
+            headerName: 'Athlete',
+            field: 'athlete',
+            minWidth: 170
+        },
+        { field: 'age' },
+        { field: 'country' },
+        {
+            field: 'year',
+            filter: 'agNumberColumnFilter'
         },
         {
-            field: 'athlete',
+            field: 'date',
+            filter: 'agNumberColumnFilter'
+        },
+        {
+            field: 'sport',
+            filter: 'agNumberColumnFilter'
         },
         {
             field: 'gold',
             editable: true,
-            cellEditor: MyReactEditor
+            cellEditor: MyReactEditor,
+            filter: 'agNumberColumnFilter'
         },
         {
             field: 'silver',
+            editable: true,
             cellEditor: MyReactEditor,
-            cellEditorPopup: true
-        }
-    ], []);
+            filter: 'agNumberColumnFilter'
+        },
+        {
+            field: 'bronze',
+            filter: 'agNumberColumnFilter'
+        },
+        {
+            field: 'total',
+            filter: 'agNumberColumnFilter'
+        },
+    ]);
 
+
+    /*
+        // never changes, so we can use useMemo
+        const columnDefs = useMemo(() => [
+            {
+                field: 'country'
+            },
+            {
+                field: 'athlete',
+            },
+            {
+                field: 'gold',
+                editable: true,
+                cellEditor: MyReactEditor
+            },
+            {
+                field: 'silver',
+                cellEditor: MyReactEditor,
+                cellEditorPopup: true
+            }
+        ], []);
+    
+      */
+    const autoGroupColumnDef = useMemo(() => {
+        return {
+            headerName: 'Group',
+            minWidth: 170,
+            field: 'athlete',
+            valueGetter: (params) => {
+                if (params.node.group) {
+                    return params.node.key;
+                } else {
+                    return params.data[params.colDef.field];
+                }
+            },
+            headerCheckboxSelection: true,
+            cellRenderer: 'agGroupCellRenderer',
+            cellRendererParams: {
+                checkbox: true,
+            },
+        };
+    }, []);
     // never changes, so we can use useMemo
-    const defaultColDef = useMemo(() => ({
-        resizable: true,
-        editable: true,
-        sortable: true,
-        flex: 1
-    }), []);
+    const defaultColDef = useMemo(() => {
+        return {
+            editable: true,
+            enableRowGroup: true,
+            enablePivot: true,
+            enableValue: true,
+            sortable: true,
+            resizable: true,
+            filter: true,
+            flex: 1,
+            minWidth: 100,
+        };
+    }, []);
+
+    const paginationNumberFormatter = useCallback((params) => {
+        return '[' + params.value.toLocaleString() + ']';
+    }, []);
+
+    const onFirstDataRendered = useCallback((params) => {
+        gridRef.current.api.paginationGoToPage(0);
+    }, []);
+
+    const onPageSizeChanged = useCallback(() => {
+        var value = document.getElementById('page-size').value;
+        gridRef.current.api.paginationSetPageSize(Number(value));
+    }, []);
 
     // changes, needs to be state
     const [rowData, setRowData] = useState();
 
-    // gets called once, no dependencies, loads the grid data
-    useEffect(() => {
+    const onGridReady = useCallback((params) => {
         fetch('olympic-winners.json', {
             headers: {
                 'Content-Type': 'application/json',
@@ -85,14 +182,62 @@ const DashboardGrid = () => {
             .then(data => setRowData(data));
     }, []);
 
+    // gets called once, no dependencies, loads the grid data
+    /*
+    useEffect(() => {
+        fetch('olympic-winners.json', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }
+        )
+            .then(resp => resp.json())
+            .then(data => setRowData(data));
+    }, []);
+    */
+
     return (
-        <AgGridReact
-            className="ag-theme-alpine"
-            animateRows="true"
-            columnDefs={columnDefs}
-            defaultColDef={defaultColDef}
-            rowData={rowData}
-        />
+        <div style={containerStyle}>
+            <div className="example-wrapper">
+                <div className="ex-header">
+                    Page Size:
+                    <select onChange={onPageSizeChanged} id="page-size">
+                        <option value="10" selected={true}>
+                            10
+                        </option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+
+                <div style={gridStyle} className="ag-theme-alpine">
+
+                    <AgGridReact
+
+                        animateRows="true"
+                        columnDefs={columnDefs}
+                        defaultColDef={defaultColDef}
+                        rowData={rowData}
+                        ref={gridRef}
+                        autoGroupColumnDef={autoGroupColumnDef}
+                        suppressRowClickSelection={true}
+                        groupSelectsChildren={true}
+                        rowSelection={'multiple'}
+                        rowGroupPanelShow={'always'}
+                        pivotPanelShow={'always'}
+                        pagination={true}
+                        paginationPageSize={10}
+                        paginationNumberFormatter={paginationNumberFormatter}
+                        onGridReady={onGridReady}
+                        onFirstDataRendered={onFirstDataRendered}
+                    >
+
+                    </AgGridReact>
+                </div>
+            </div>
+        </div>
     );
 }
 export default DashboardGrid
