@@ -139,6 +139,14 @@ const DashboardGrid = () => {
             },
         };
     }, []);
+    const onFilterTextBoxChanged = useCallback(() => {
+        gridRef.current.api.setQuickFilter(
+            document.getElementById('filter-text-box').value
+        );
+    }, []);
+    
+
+
     // never changes, so we can use useMemo
     const defaultColDef = useMemo(() => {
         return {
@@ -182,6 +190,17 @@ const DashboardGrid = () => {
             .then(data => setRowData(data));
     }, []);
 
+    const onSelectionChanged = useCallback(() => {
+        const selectedRows = gridRef.current.api.getSelectedRows();
+        console.log(JSON.parse(selectedRows[0]));
+
+        // document.querySelector('#selectedRows').innerHTML =
+        //   selectedRows.length === 1 ? selectedRows[0].athlete : '';
+    
+      }, []);
+
+
+
     // gets called once, no dependencies, loads the grid data
     /*
     useEffect(() => {
@@ -201,8 +220,15 @@ const DashboardGrid = () => {
         <div style={containerStyle}>
             <div className="example-wrapper">
                 <div className="ex-header">
+                    <input
+                        type="text"
+                        id="filter-text-box"
+                        placeholder="Filter..."
+                        onInput={onFilterTextBoxChanged}
+                    />
+                    <div className="pagesize" style={{float:'right'}}>
                     Page Size:
-                    <select onChange={onPageSizeChanged} id="page-size">
+                    <select style={{marginleft:"20px"}} onChange={onPageSizeChanged} id="page-size">
                         <option value="10" selected={true}>
                             10
                         </option>
@@ -210,6 +236,8 @@ const DashboardGrid = () => {
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
+                    </div>
+
                 </div>
 
                 <div style={gridStyle} className="ag-theme-alpine">
@@ -219,12 +247,13 @@ const DashboardGrid = () => {
                         animateRows="true"
                         columnDefs={columnDefs}
                         defaultColDef={defaultColDef}
+                        rowSelection={'single'}
                         rowData={rowData}
                         ref={gridRef}
                         autoGroupColumnDef={autoGroupColumnDef}
-                        suppressRowClickSelection={true}
+                        suppressRowClickSelection={false}
                         groupSelectsChildren={true}
-                        rowSelection={'multiple'}
+                        // rowSelection={'multiple'}
                         rowGroupPanelShow={'always'}
                         pivotPanelShow={'always'}
                         pagination={true}
@@ -232,12 +261,14 @@ const DashboardGrid = () => {
                         paginationNumberFormatter={paginationNumberFormatter}
                         onGridReady={onGridReady}
                         onFirstDataRendered={onFirstDataRendered}
+                        onSelectionChanged={onSelectionChanged}
+                        
                     >
-
                     </AgGridReact>
                 </div>
             </div>
         </div>
     );
+
 }
 export default DashboardGrid
