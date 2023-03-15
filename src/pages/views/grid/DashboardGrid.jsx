@@ -8,6 +8,9 @@ import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
 import React, { forwardRef, memo, useEffect, useImperativeHandle, useMemo, useRef, useState, useCallback } from 'react';
 import { ModuleRegistry, GridOptions } from '@ag-grid-community/core';
 
+import { Button, Drawer, Typography } from '@mui/material';
+
+
 // Register the required feature modules with the Grid
 ModuleRegistry.registerModules([ClientSideRowModelModule, RangeSelectionModule, RowGroupingModule, RichSelectModule]);
 
@@ -144,7 +147,7 @@ const DashboardGrid = () => {
             document.getElementById('filter-text-box').value
         );
     }, []);
-    
+
 
 
     // never changes, so we can use useMemo
@@ -176,7 +179,12 @@ const DashboardGrid = () => {
     }, []);
 
     // changes, needs to be state
-    const [rowData, setRowData] = useState();
+    const [selectedRowData, setSelectedRowData] = useState([]);
+    const [selectedRowHeader, setSelectedRowHeader] = useState([]);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [rowData, setRowData] = useState([]);;
+
+    // const rowData = useMemo(() => { /* memoized row data */ }, [data]);
 
     const onGridReady = useCallback((params) => {
         fetch('olympic-winners.json', {
@@ -191,13 +199,12 @@ const DashboardGrid = () => {
     }, []);
 
     const onSelectionChanged = useCallback(() => {
-        const selectedRows = gridRef.current.api.getSelectedRows();
-        console.log(JSON.parse(selectedRows[0]));
 
+        
         // document.querySelector('#selectedRows').innerHTML =
         //   selectedRows.length === 1 ? selectedRows[0].athlete : '';
-    
-      }, []);
+
+    }, []);
 
 
 
@@ -216,6 +223,15 @@ const DashboardGrid = () => {
     }, []);
     */
 
+    const handleRowSelected = (event) => {
+        //const selectedRows = gridRef.current.getSelectedRows();
+        const selectedRows = event.data;
+        console.log("hi" + selectedRows);
+        setSelectedRowData(selectedRows);
+        
+        
+        setIsDrawerOpen(true);
+    };
     return (
         <div style={containerStyle}>
             <div className="example-wrapper">
@@ -226,16 +242,16 @@ const DashboardGrid = () => {
                         placeholder="Filter..."
                         onInput={onFilterTextBoxChanged}
                     />
-                    <div className="pagesize" style={{float:'right'}}>
-                    Page Size:
-                    <select style={{marginleft:"20px"}} onChange={onPageSizeChanged} id="page-size">
-                        <option value="10" selected={true}>
-                            10
-                        </option>
-                        <option value="30">30</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
+                    <div className="pagesize" style={{ float: 'right' }}>
+                        Page Size:
+                        <select style={{ marginleft: "20px" }} onChange={onPageSizeChanged} id="page-size">
+                            <option value="10" selected={true}>
+                                10
+                            </option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
                     </div>
 
                 </div>
@@ -243,7 +259,6 @@ const DashboardGrid = () => {
                 <div style={gridStyle} className="ag-theme-alpine">
 
                     <AgGridReact
-
                         animateRows="true"
                         columnDefs={columnDefs}
                         defaultColDef={defaultColDef}
@@ -261,10 +276,29 @@ const DashboardGrid = () => {
                         paginationNumberFormatter={paginationNumberFormatter}
                         onGridReady={onGridReady}
                         onFirstDataRendered={onFirstDataRendered}
-                        onSelectionChanged={onSelectionChanged}
-                        
+                        onRowSelected={handleRowSelected}
                     >
                     </AgGridReact>
+                    
+                    <Drawer anchor="right" open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
+                        <div style={{width: "200px"}}>
+                            {selectedRowData && (
+                                <>
+                                
+
+
+                                {
+                Object.entries(selectedRowData).map(([key, val]) => 
+                    <h2 key={key}>{key}: {val}</h2>
+                )
+            }
+
+                                </>
+                            )}
+                            <Button onClick={() => setIsDrawerOpen(false)}>Close</Button>
+                        </div>
+                    </Drawer>
+
                 </div>
             </div>
         </div>

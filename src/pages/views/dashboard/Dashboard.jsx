@@ -1,5 +1,6 @@
 import React from "react";
-import DashboardGrid from "../grid/DashboardGrid";
+ import DashboardGrid from "../grid/DashboardGrid";
+//import GridWithDrawer from "../grid/GridWithDrawer";
 
 
 const Dashboard = () => {
@@ -10,7 +11,8 @@ const Dashboard = () => {
 
         <h1>Dashboard</h1>
         <div style={{ position: "absolute", height: "100vh", width: "70vmax" }} className="Grid">
-            <DashboardGrid />
+            { <DashboardGrid /> }
+            
         </div>
     </div>;
 };
