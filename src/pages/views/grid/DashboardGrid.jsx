@@ -165,11 +165,11 @@ const DashboardGrid = () => {
             .then(data => setRowData(data));
     }, []);
 
-    const onSelectionChanged = useCallback(() => {
-        // document.querySelector('#selectedRows').innerHTML =
-        //   selectedRows.length === 1 ? selectedRows[0].athlete : '';
+    // const onSelectionChanged = useCallback(() => {
+    //     // document.querySelector('#selectedRows').innerHTML =
+    //     //   selectedRows.length === 1 ? selectedRows[0].athlete : '';
 
-    }, []);
+    // }, []);
 
 
     const handleRowSelected = (event) => {
