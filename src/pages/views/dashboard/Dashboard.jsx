@@ -1,20 +1,16 @@
+import { Typography } from "@mui/material";
 import React from "react";
+import Arc from "../grid/Arc";
  import DashboardGrid from "../grid/DashboardGrid";
 //import GridWithDrawer from "../grid/GridWithDrawer";
 
 
 const Dashboard = () => {
-    return <div style={{
-        position: "absolute", paddingLeft: "12vmax",
-        transform: "translate(-50%,-50%)", top: "35%", left: "25%"
-    }} className="title">
+    return <Typography>
+             <Typography variant="h1">Dashboard</Typography>
+             <DashboardGrid />
 
-        <h1>Dashboard</h1>
-        <div style={{ position: "absolute", height: "100vh", width: "70vmax" }} className="Grid">
-            { <DashboardGrid /> }
-            
-        </div>
-    </div>;
+             </Typography>
 };
 
 export default Dashboard;

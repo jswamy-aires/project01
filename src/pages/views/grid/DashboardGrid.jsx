@@ -6,7 +6,7 @@ import { RangeSelectionModule } from '@ag-grid-enterprise/range-selection';
 import { RichSelectModule } from '@ag-grid-enterprise/rich-select';
 import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
 import React, { forwardRef, memo, useEffect, useImperativeHandle, useMemo, useRef, useState, useCallback } from 'react';
-import { ModuleRegistry, GridOptions } from '@ag-grid-community/core';
+import { ModuleRegistry } from '@ag-grid-community/core';
 
 import { Button, Drawer, Typography } from '@mui/material';
 
@@ -42,15 +42,6 @@ const MyReactEditor = memo(forwardRef((props, ref) => {
     );
 }));
 
-var checkboxSelection = function (params) {
-    // we put checkbox on the name if we are not doing grouping
-    return params.columnApi.getRowGroupColumns().length === 0;
-};
-
-var headerCheckboxSelection = function (params) {
-    // we put checkbox on the name if we are not doing grouping
-    return params.columnApi.getRowGroupColumns().length === 0;
-};
 
 const DashboardGrid = () => {
 
@@ -100,29 +91,6 @@ const DashboardGrid = () => {
         },
     ]);
 
-
-    /*
-        // never changes, so we can use useMemo
-        const columnDefs = useMemo(() => [
-            {
-                field: 'country'
-            },
-            {
-                field: 'athlete',
-            },
-            {
-                field: 'gold',
-                editable: true,
-                cellEditor: MyReactEditor
-            },
-            {
-                field: 'silver',
-                cellEditor: MyReactEditor,
-                cellEditorPopup: true
-            }
-        ], []);
-    
-      */
     const autoGroupColumnDef = useMemo(() => {
         return {
             headerName: 'Group',
@@ -180,7 +148,6 @@ const DashboardGrid = () => {
 
     // changes, needs to be state
     const [selectedRowData, setSelectedRowData] = useState([]);
-    const [selectedRowHeader, setSelectedRowHeader] = useState([]);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [rowData, setRowData] = useState([]);;
 
@@ -199,110 +166,88 @@ const DashboardGrid = () => {
     }, []);
 
     const onSelectionChanged = useCallback(() => {
-
-        
         // document.querySelector('#selectedRows').innerHTML =
         //   selectedRows.length === 1 ? selectedRows[0].athlete : '';
 
     }, []);
 
 
-
-    // gets called once, no dependencies, loads the grid data
-    /*
-    useEffect(() => {
-        fetch('olympic-winners.json', {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }
-        )
-            .then(resp => resp.json())
-            .then(data => setRowData(data));
-    }, []);
-    */
-
     const handleRowSelected = (event) => {
-        //const selectedRows = gridRef.current.getSelectedRows();
         const selectedRows = event.data;
-        console.log("hi" + selectedRows);
         setSelectedRowData(selectedRows);
-        
-        
         setIsDrawerOpen(true);
     };
     return (
-        <div style={containerStyle}>
-            <div className="example-wrapper">
-                <div className="ex-header">
-                    <input
-                        type="text"
-                        id="filter-text-box"
-                        placeholder="Filter..."
-                        onInput={onFilterTextBoxChanged}
-                    />
-                    <div className="pagesize" style={{ float: 'right' }}>
-                        Page Size:
-                        <select style={{ marginleft: "20px" }} onChange={onPageSizeChanged} id="page-size">
-                            <option value="10" selected={true}>
-                                10
-                            </option>
-                            <option value="30">30</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
+        <Typography>
+            <div style={containerStyle}>
+                <div className="example-wrapper">
+                    <div className="ex-header">
+                        <input
+                            type="text"
+                            id="filter-text-box"
+                            placeholder="Filter..."
+                            onInput={onFilterTextBoxChanged}
+                        />
+                        <div className="pagesize" style={{ float: 'right' }}>
+                            Page Size:
+                            <select style={{ marginleft: "20px" }} onChange={onPageSizeChanged} id="page-size">
+                                <option value="10" selected={true}>
+                                    10
+                                </option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+
                     </div>
 
-                </div>
+                    <div style={gridStyle} className="ag-theme-alpine">
 
-                <div style={gridStyle} className="ag-theme-alpine">
+                        <AgGridReact
+                            animateRows="true"
+                            columnDefs={columnDefs}
+                            defaultColDef={defaultColDef}
+                            rowSelection={'single'}
+                            rowData={rowData}
+                            ref={gridRef}
+                            autoGroupColumnDef={autoGroupColumnDef}
+                            suppressRowClickSelection={false}
+                            groupSelectsChildren={true}
+                            // rowSelection={'multiple'}
+                            rowGroupPanelShow={'always'}
+                            pivotPanelShow={'always'}
+                            pagination={true}
+                            paginationPageSize={10}
+                            paginationNumberFormatter={paginationNumberFormatter}
+                            onGridReady={onGridReady}
+                            onFirstDataRendered={onFirstDataRendered}
+                            onRowSelected={handleRowSelected}
+                        >
+                        </AgGridReact>
 
-                    <AgGridReact
-                        animateRows="true"
-                        columnDefs={columnDefs}
-                        defaultColDef={defaultColDef}
-                        rowSelection={'single'}
-                        rowData={rowData}
-                        ref={gridRef}
-                        autoGroupColumnDef={autoGroupColumnDef}
-                        suppressRowClickSelection={false}
-                        groupSelectsChildren={true}
-                        // rowSelection={'multiple'}
-                        rowGroupPanelShow={'always'}
-                        pivotPanelShow={'always'}
-                        pagination={true}
-                        paginationPageSize={10}
-                        paginationNumberFormatter={paginationNumberFormatter}
-                        onGridReady={onGridReady}
-                        onFirstDataRendered={onFirstDataRendered}
-                        onRowSelected={handleRowSelected}
-                    >
-                    </AgGridReact>
-                    
-                    <Drawer anchor="right" open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
-                        <div style={{width: "200px"}}>
-                            {selectedRowData && (
-                                <>
-                                
+                        <Drawer anchor="right" open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
+                            <h2>Data</h2>
+                            <div className='drawer-right-side'>
+                                {selectedRowData && (
+                                    <>
+                                        {
+                                            Object.entries(selectedRowData).map(([key, val]) =>
+                                                <p key={key} className="drawer-right-row">{key}: {val}</p>
+                                            )
+                                        }
 
+                                    </>
+                                )}
+                            </div>
+                            <Button onClick={() => setIsDrawerOpen(false)} drawer-right-row >Close</Button>
+                        </Drawer>
 
-                                {
-                Object.entries(selectedRowData).map(([key, val]) => 
-                    <h2 key={key}>{key}: {val}</h2>
-                )
-            }
-
-                                </>
-                            )}
-                            <Button onClick={() => setIsDrawerOpen(false)}>Close</Button>
-                        </div>
-                    </Drawer>
-
+                    </div>
                 </div>
             </div>
-        </div>
+        </Typography>
     );
 
 }
-export default DashboardGrid
+export default DashboardGrid;

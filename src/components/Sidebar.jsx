@@ -7,6 +7,7 @@ import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import PersonIcon from '@material-ui/icons/Person';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import { Typography } from '@material-ui/core';
 
 const routes = [
     {
@@ -44,15 +45,10 @@ const Sidebar = ({ childern }) => {
     const toggle = () => setIsOpen(!isopen);
 
     return (
+        <Typography>
         <div className="main-container">
-            <div className="bgtop"></div>
-            <motion.div animate={{ width: isopen ? "65vmax" : "85vmax", marginLeft: isopen ? "30vmax" : "8vmax", justifyContent: 'space-around' }} className="nav">
-                <span className='nav1' onClick={toggle} ><MenuIcon /></span>
-                <span className="nav2"><input type="text" placeholder='🔍  search or type a product name' /></span>
-                <span className='nav3' color='#1D76CB'>intel</span>
-                <span className="nav4"><NotificationsNoneIcon /></span>
-                <span className="nav5"><PersonIcon /><span> Hussain Ahmed</span></span>
-            </motion.div>
+            
+            
 
             <motion.div animate={{ width: isopen ? "250px" : "50px", }} className="sidebar">
                 <div className='top_section'>
@@ -77,7 +73,7 @@ const Sidebar = ({ childern }) => {
                 {childern}
             </main>
         </div>
-
+        </Typography>
     )
 }
 
